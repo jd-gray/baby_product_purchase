@@ -10,14 +10,15 @@
 
     if (checkBox.checked == true) {
       shippingAddressDiv.style.display = "none";
+      document.getElementById("order_is_gift").value = "true";
       clearFields(shippingAddressFields);
 
       giftInformationDiv.style.display = "block";
     } else {
       shippingAddressDiv.style.display = "flex";
 
-      // TODO: Clear hidden is_gift field
       giftInformationDiv.style.display = "none";
+      document.getElementById("order_is_gift").value = "";
       clearFields(giftInformationFields);
     }
   };

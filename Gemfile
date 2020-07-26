@@ -15,8 +15,9 @@ gem 'jbuilder', '~> 2.7'
 gem "nokogiri", ">= 1.10.8"
 gem "actionview", ">= 6.0.2.2"
 
-
-
+group :development, :test do
+  gem 'pry-rails', '~> 0.3.6'
+end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.

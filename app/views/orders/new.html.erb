@@ -18,15 +18,15 @@
     <%= form.hidden_field :product_id %>
     <div class="form-row">
       <div class="form-group col-md-12">
-        <%= form.label :shipping_name, "Your Name" %>
+        <%= form.label :shipping_name, "Your Name", id: "shipping-name" %>
         <%= form.text_field :shipping_name, class: "form-control" %>
       </div>
       <div class="form-group col-md-6">
-        <%= form.label :child_full_name, "Your Child's Name" %>
+        <%= form.label :child_full_name, "Your Child's Name", id: "childs-name" %>
         <%= form.text_field :child_full_name, class: "form-control" %>
       </div>
       <div class="form-group col-md-6">
-        <%= form.label :child_birthdate, "Your Child's Birthdate (or expected date)" %>
+        <%= form.label :child_birthdate, "Your Child's Birthdate (or expected date)", id: "childs-birthdate" %>
         <%= form.text_field :child_birthdate, class: "form-control" %>
         <small id="passwordHelpBlock" class="form-text text-muted">
           Use format YYYY-MM-DD

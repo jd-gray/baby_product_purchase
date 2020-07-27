@@ -1,0 +1,11 @@
+<% flash.each do |type, msg| %>
+  <div class="alert alert-danger">
+    <%= msg %>
+  </div>
+<% end %>
+
+<% if order.errors.any? %>
+  <aside class="alert alert-danger m-3" role="alert">
+    <%= order.errors.full_messages.join(",") %>
+  </aside>
+<% end %>

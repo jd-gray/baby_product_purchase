@@ -1,8 +1,4 @@
-<% if @order.errors.any? %>
-  <aside class="alert alert-danger m-3" role="alert">
-    <%= @order.errors.full_messages.join(",") %>
-  </aside>
-<% end %>
+<%= render partial: "order_errors", locals: { order: @order } %>
 <section class="mt-2 pt-3">
   <h1 class="h2 text-center text-uppercase text-tracked">Check Out</h1>
   <h2 class="h4 mt-4"><%= @order.product.name %></h2>

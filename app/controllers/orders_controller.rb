@@ -1,13 +1,17 @@
 class OrdersController < ApplicationController
   def new
     @order = Order.new(product: Product.find(params[:product_id]))
+
+    if params[:is_gift] 
+      render :gift
+    else
+      render :new
+    end
   end
 
   def create
-    params = {}
-    order_factory_params = params.merge order_params, child_params, gift_params
-
-    @order = OrderFactory.new(order_factory_params, is_gift).construct_order
+    child = Child.find_or_create_by(child_params)
+    @order = Order.create(order_params.merge(child: child, user_facing_id: SecureRandom.uuid[0..7]))
     if @order.valid?
       Purchaser.new.purchase(@order, credit_card_params)
       redirect_to order_path(@order)
@@ -28,7 +32,7 @@ private
 
   def child_params
     {
-      child_full_name: params.require(:order)[:child_full_name],
+      full_name: params.require(:order)[:child_full_name],
       parent_name: params.require(:order)[:shipping_name],
       birthdate: Date.parse(params.require(:order)[:child_birthdate]),
     }

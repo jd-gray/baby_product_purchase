@@ -1,0 +1,23 @@
+<% if @order.errors.any? %>
+  <aside class="alert alert-danger m-3" role="alert">
+    <%= @order.errors.full_messages.join(",") %>
+  </aside>
+<% end %>
+<section class="mt-2 pt-3">
+  <h1 class="h2 text-center text-uppercase text-tracked">Check Out</h1>
+  <h2 class="h4 mt-4"><%= @order.product.name %></h2>
+  <div class="row">
+    <h3 class="h5 font-weight-normal mb-3 col-md-6"><%= number_to_currency(@order.product.price_cents / 100) %></h3>
+    <%= link_to "Go Back", new_order_url(product_id: @order.product.id) %> 
+  </div>
+  <div class="alert alert-info" role="alert">
+    <p>Thank you for choosing to send a gift!</p>
+    <p>To make sure this goes to the correct child, we will need to know:</p>
+    <ul>
+      <li>The child's name, birthdate, and parent's name</li>
+      <li>The child must already be in our system so the gift goes to the correct location</li>
+      <li>If you need help, please contact our customer support and we will be happy to help</li>
+    </ul>
+  </div>
+  <%= render partial: "gift_form", locals: { order: @order } %>
+</section>

@@ -20,6 +20,9 @@ class OrdersController < ApplicationController
     end
   end
 
+  def gift_order
+  end
+
   def show
     @order = Order.find_by(id: params[:id]) || Order.find_by(user_facing_id: params[:id])
   end
@@ -36,10 +39,6 @@ private
       parent_name: params.require(:order)[:shipping_name],
       birthdate: Date.parse(params.require(:order)[:child_birthdate]),
     }
-  end
-
-  def is_gift
-    params.require(:order)[:is_gift]
   end
 
   def gift_params

@@ -1,6 +1,12 @@
 class OrdersController < ApplicationController
   def new
     @order = Order.new(product: Product.find(params[:product_id]))
+
+    if params[:is_gift] 
+      render :gift
+    else
+      render :new
+    end
   end
 
   def create
@@ -11,6 +17,26 @@ class OrdersController < ApplicationController
       redirect_to order_path(@order)
     else
       render :new
+    end
+  end
+
+  def gift_order
+    child = Child.find_by(child_params)
+
+    if child.blank?
+      redirect_to new_order_path(is_gift: true, product_id: order_params[:product_id]), notice: "Child could not be found, please try another search!"
+      return
+    end
+    last_order = child.orders.last
+
+    @order = Order.new(order_params.merge(zipcode: last_order.zipcode, address: last_order.address, child: child, user_facing_id: SecureRandom.uuid[0..7]))
+    @gift = Gift.new(gift_params.merge(order: @order))
+
+    if @order.valid? && @gift.valid?
+      Purchaser.new.purchase(@order, credit_card_params)
+      redirect_to order_path(@order)
+    else
+      redirect_to new_order_path(is_gift: true, product_id: order_params[:product_id]), notice: "Your order could not be placed, please contact customer support if you feel this is an error"
     end
   end
 
@@ -32,7 +58,11 @@ private
     }
   end
 
+  def gift_params
+    params.require(:order).permit(:from, :message)
+  end
+
   def credit_card_params
-    params.require(:order).permit( :credit_card_number, :expiration_month, :expiration_year)
+    params.require(:order).permit(:credit_card_number, :expiration_month, :expiration_year)
   end
 end
